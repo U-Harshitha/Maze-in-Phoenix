@@ -1,0 +1,63 @@
+import Config
+
+config :phoenixmaze,
+  ecto_repos: [Phoenixmaze.Repo],
+  generators: [timestamp_type: :utc_datetime]
+
+config :phoenixmaze, PhoenixmazeWeb.Endpoint,
+  session: [
+    store: :ets,
+    table: :session,
+    key: "_phoenixmaze_key",
+    signing_salt: "random_salt_here"
+  ]
+
+
+# Configures the endpoint
+config :phoenixmaze, PhoenixmazeWeb.Endpoint,
+  url: [host: "localhost"],
+  adapter: Bandit.PhoenixAdapter,
+  render_errors: [
+    formats: [html: PhoenixmazeWeb.ErrorHTML, json: PhoenixmazeWeb.ErrorJSON],
+    layout: false
+  ],
+  pubsub_server: Phoenixmaze.PubSub,
+  live_view: [signing_salt: "iZ5xweXD"],
+  static_url: [path: "/"]
+
+# Configures the mailer
+config :phoenixmaze, Phoenixmaze.Mailer, adapter: Swoosh.Adapters.Local
+
+# Configure esbuild (the version is required)
+config :esbuild,
+  version: "0.17.11",
+  phoenixmaze: [
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --external:/videos/*),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+# Configure tailwind (the version is required)
+config :tailwind,
+  version: "3.4.3",
+  phoenixmaze: [
+    args: ~w(
+      --config=tailwind.config.js
+      --input=css/app.css
+      --output=../priv/static/assets/app.css
+    ),
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
+
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{config_env()}.exs"

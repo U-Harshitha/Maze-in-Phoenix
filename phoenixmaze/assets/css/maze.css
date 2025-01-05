@@ -1,0 +1,276 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('/priv/images/amazedmid.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  background-color: #000000; /* Black background */
+  color: #00FF00; /* Neon green text color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.maze-wrapper {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+/* Maze Container */
+.maze-container {
+  display: grid;
+  gap: 5px; /* Small gap between cells */
+  grid-template-columns: repeat(var(--cols), 1fr); /* Dynamically set columns */
+  grid-template-rows: repeat(var(--rows), 1fr); /* Dynamically set rows */
+  width: min(90vw, 90vh); /* Adjust width to fit within the viewport */
+  height: min(90vw, 90vh); /* Adjust height to fit within the viewport */
+  background: #333333; /* Dark background for maze */
+  padding: 20px;
+  border-radius: 12px; /* Slightly rounded corners */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6); /* Dark shadow for depth */
+}
+
+/* Individual Maze Cells */
+.maze-cell {
+  /* width: 50px;
+  height: 50px; */
+  aspect-ratio: 1 / 1; 
+  position: relative;
+  background: #212121; /* Dark gray background for each cell */
+  border-radius: 10px; /* Rounded corners for each cell */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Darker shadow for depth */
+  transition: background-color 0.3s ease;
+}
+
+/* Wall Styles */
+.wall-north,
+.wall-south,
+.wall-east,
+.wall-west {
+  position: absolute;
+  background: #00FF00; /* Neon green for walls */
+  transition: opacity 0.2s ease-in-out;
+}
+
+.wall-north {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px; /* Slightly thicker for better visibility */
+}
+
+.wall-south {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.wall-east {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.wall-west {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+/* Wall Hidden (opacity control) */
+.wall-hidden {
+  opacity: 0;
+}
+
+/* Start and End Cells */
+.end-cell {
+  background-color: #FF5722; /* Neon orange for end */
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 1;
+}
+
+/* Boundary Walls */
+.boundary-wall {
+  background-color: #FFEB3B; /* Neon yellow for boundary walls */
+  opacity: 1 !important; /* Ensure boundary walls are visible */
+}
+
+/* Highlighted Path */
+.path-cell {
+  background-color: #00FF00; /* Neon green for highlighted path */
+  z-index: 2;
+}
+
+/* Hover Effect for Cells */
+.maze-cell:hover {
+  background-color: #424242; /* Slightly darker gray on hover */
+  transform: scale(1.05); /* Slight scaling on hover */
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Timer Styles */
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.circular-timer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.timer-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00FF00; /* Neon green */
+}
+
+.timer-circle {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.timer-circle path:first-of-type {
+  stroke: #333333; /* Dark color for background circle */
+}
+
+.timer-circle path:last-of-type {
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.3s ease, stroke 0.3s ease;
+}
+
+.timer-green path:last-of-type {
+  stroke: #00FF00; /* Neon green for timer circle */
+}
+
+.timer-orange path:last-of-type {
+  stroke: #FF5722; /* Neon orange for timer circle */
+}
+
+.timer-red path:last-of-type {
+  stroke: #FF0000; /* Neon red for timer circle */
+}
+
+/* Background Video */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Start Cell */
+.start-cell {
+  background-color: #00FF00; /* Neon green for start */
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 1;
+}
+
+/* Moving Object Cell */
+.object-cell {
+  background: rgba(255, 215, 0, 0.1); /* Slightly transparent yellow */
+}
+
+.object {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background: #FFD700; /* Neon yellow for object */
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
+  animation: objectPulse 1.5s ease-in-out infinite;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+
+
+/* Maze Dimension Form */
+.maze-dimension-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #222;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+  max-width: 500px;
+  width: 95%;
+  text-align: center;
+  color: #fff;
+}
+
+.maze-dimension-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #fff;
+}
+
+.maze-dimension-form label {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.maze-dimension-form input {
+  margin-top: 5px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  width: 80%;
+  color: black;
+}
+
+.maze-dimension-form button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.maze-dimension-form button:hover {
+  background-color: #45a049;
+}
+
+@keyframes objectPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

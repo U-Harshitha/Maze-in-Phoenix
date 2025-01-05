@@ -1,0 +1,32 @@
+/* Add after existing styles */
+
+.maze {
+  background: #333;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  background: white;
+  margin: 1px;
+}
+
+.wall {
+  background: #333;
+}
+
+.player {
+  background: #4CAF50;
+  border-radius: 50%;
+}
+
+.goal {
+  background: #f44336;
+}

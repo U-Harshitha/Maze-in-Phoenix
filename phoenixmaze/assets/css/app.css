@@ -1,0 +1,91 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "./maze.css";
+
+/* This file is for your main application CSS */
+.game-container {
+    background-image: url("/images/amazedmid.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.page-container {
+    position: relative;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Occupy full container height */
+    width: 100%; /* Occupy full container width */
+}
+
+.maze-wrapper {
+    position: relative;
+    z-index: 1;
+    display: grid; /* Optional, depending on maze content */
+    place-items: center; /* Center the maze content */
+    padding: 1rem; /* Optional padding around the maze */
+    background: rgba(255, 255, 255, 0.03); /* Optional translucent background */
+    border-radius: 10px; /* Optional rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Optional shadow effect */
+}
+
+.timer-container {
+    background-color: rgba(35, 33, 33, 0.66);
+    padding: 20px;
+    border-radius: 10px;
+    position: fixed;
+    top: 140px;
+    right: 80px; /* Moved further left by increasing the value */
+    color: white;
+    text-align: center;
+}
+
+.timer-text {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: white;
+    text-align: right;
+    padding-right: 15px; /* Ensure alignment consistency */
+}
+
+.timer-number {
+    color: white !important; /* Ensure the timer number is white */
+    font-size: 2em; /* Adjust font size if needed */
+    font-weight: bold; /* Optional for emphasis */
+}
+
+/* Video container styles */
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+}
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    background-color: black;
+  }
+  
+  .fullscreen-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }

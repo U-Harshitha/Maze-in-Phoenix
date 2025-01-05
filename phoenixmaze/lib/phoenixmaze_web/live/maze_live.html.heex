@@ -1,0 +1,110 @@
+
+<div class="page-container">
+  <div class="page-container">
+    <%= if @show_success do %>
+      <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-gray-800 border-2 border-green-500 rounded-lg p-6 max-w-sm w-full mx-4 text-center">
+          <h2 class="text-2xl font-bold text-green-500 mb-4">Success!</h2>
+          <p class="text-green-400 mb-6">Yayy! You robbed the bank!</p>
+          <p class="text-green-400 mb-5">Points: <%= @points %></p>
+          <button 
+            class="bg-green-500 text-white px-4 py-2 rounded-lg mt-4 hover:bg-green-600 transition-colors"
+            phx-click="play_again"
+          >
+            Play Again
+          </button>
+        </div>
+      </div>            
+    <% end %>
+</div>
+
+  <%= if @maze_dimensions_set do %>
+    <div class="timer-container">
+      <div class="timer-box">
+        <div class="timer-text">Lock resets in</div>
+        <div class={"circular-timer timer-#{@timer_color}"} data-percentage={@timer_percentage}>
+          <div class="timer-number"><%= @countdown %></div>
+          <svg class="timer-circle" viewBox="0 0 36 36">
+            <path
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+              fill="none"
+              stroke="#eee"
+              stroke-width="3"
+            />
+            <path
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+              fill="none"
+              stroke-width="3"
+              stroke-dasharray={"#{@timer_percentage}, 100"}
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maze Section -->
+    <div
+      class="maze-wrapper"
+      style={"--rows: #{@rows}; --cols: #{@cols};"}
+      phx-window-keydown="move_object"
+    >
+      <div class="maze-outer-border">
+        <div class="maze-container" style={"grid-template-columns: repeat(#{@cols}, 1fr)"}>
+          <%= for {row, row_index} <- Enum.with_index(@maze) do %>
+            <%= for {cell, col_index} <- Enum.with_index(row) do %>
+              <div class={[
+                "maze-cell",
+                row_index == 0 && col_index == 0 && "start-cell",
+                row_index == @rows - 1 && col_index == @cols - 1 && "end-cell",
+                row_index == elem(@object_position, 0) && col_index == elem(@object_position, 1) && "object-cell"
+              ]}>
+                <div class={[
+                  "wall-north", 
+                  !elem(cell, 0) && "wall-hidden", 
+                  row_index == 0 && "boundary-wall"
+                ]}></div>
+                <div class={[
+                  "wall-east", 
+                  !elem(cell, 1) && "wall-hidden", 
+                  col_index == @cols - 1 && "boundary-wall"
+                ]}></div>
+                <div class={[
+                  "wall-west", 
+                  !elem(cell, 2) && "wall-hidden", 
+                  col_index == 0 && "boundary-wall"
+                ]}></div>
+                <div class={[
+                  "wall-south", 
+                  !elem(cell, 3) && "wall-hidden", 
+                  row_index == @rows - 1 && "boundary-wall"
+                ]}></div>
+                <%= if @object_position == {row_index, col_index} do %>
+                  <div class="object"></div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="maze-dimension-form">
+      <form phx-submit="set_dimensions">
+  <div>
+    <label for="rows">Rows:</label>
+    <input type="number" name="rows" id="rows" min="2" max="30">
+  </div>
+  <div>
+    <label for="cols">Columns:</label>
+    <input type="number" name="cols" id="cols" min="2" max="30">
+  </div>
+  <button type="submit">Play</button>
+  <button phx-click="compete">Compete</button>
+</form>
+    </div>
+  <% end %>
+</div>
